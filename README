@@ -44,3 +44,6 @@ your system administrator for help, as this is a systems issue which is
 beyond our scope.  Your system administrator will be able to troubleshoot
 your systems issue using this trivial program.  [You can also try running
 the pcatoy program in the bin directory, which we have already compiled.]
+
+Alternatively, a Python version of the `pcatoy` demonstration is provided
+in `python/pcatoy.py`.  Run it with `python3 python/pcatoy.py`.

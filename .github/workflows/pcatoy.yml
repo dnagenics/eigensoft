@@ -1,0 +1,38 @@
+name: pcatoy C smoke test
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pcatoy:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: src
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y build-essential gfortran liblapack-dev libblas-dev
+
+      - name: Build pcatoy
+        run: make pcatoy
+
+      - name: Run pcatoy and check output
+        run: |
+          timeout 30s ./pcatoy > pcatoy.out
+          cat pcatoy.out
+          cat > expected.out <<'EOF'
+          The eigenvectors of the 2x2 identity matrix are:
+           1.00 0.00
+           0.00 1.00
+          EOF
+          diff -u expected.out pcatoy.out
